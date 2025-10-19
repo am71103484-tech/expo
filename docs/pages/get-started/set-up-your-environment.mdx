@@ -1,3 +1,94 @@
+import tkinter as tk
+
+# গ্লোবাল ভেরিয়েবল: বর্তমান এক্সপ্রেশন সংরক্ষণ করার জন্য
+expression = ""
+
+# ডিসপ্লেতে ইনপুট দেওয়ার ফাংশন
+def press(num):
+    # 'expression' গ্লোবাল ভেরিয়েবল ব্যবহার করার জন্য
+    global expression
+    expression = expression + str(num)
+    # ডিসপ্লে ভেরিয়েবল আপডেট করা
+    equation.set(expression)
+
+# ফলাফল গণনা করার ফাংশন
+def equalpress():
+    # 'expression' গ্লোবাল ভেরিয়েবল ব্যবহার করার জন্য
+    global expression
+    try:
+        # eval() ফাংশন দিয়ে স্ট্রিং এক্সপ্রেশন গণনা করা
+        total = str(eval(expression))
+        equation.set(total)
+        # গণনা শেষে এক্সপ্রেশন রিসেট করা
+        expression = total
+    except:
+        # কোনো ত্রুটি হলে (যেমন, শূন্য দিয়ে ভাগ)
+        equation.set(" Error ")
+        expression = ""
+
+# ডিসপ্লে পরিষ্কার করার ফাংশন
+def clear():
+    global expression
+    expression = ""
+    equation.set("")
+
+if __name__ == "__main__":
+    # মূল উইন্ডো তৈরি
+    gui = tk.Tk()
+    gui.configure(background="light gray")
+    gui.title("সাধারণ ক্যালকুলেটর")
+    gui.geometry("270x150") # উইন্ডোর সাইজ
+
+    # ডিসপ্লে ভেরিয়েবল
+    equation = tk.StringVar()
+
+    # ডিসপ্লে ক্ষেত্র তৈরি
+    expression_field = tk.Entry(gui, textvariable=equation)
+    expression_field.grid(columnspan=4, ipadx=70) # ৪টি কলাম জুড়ে থাকবে
+
+    # বোতাম তৈরি
+    button1 = tk.Button(gui, text=' 1 ', fg='black', bg='white',
+                        command=lambda: press(1), height=1, width=7)
+    button1.grid(row=2, column=0)
+
+    button2 = tk.Button(gui, text=' 2 ', fg='black', bg='white',
+                        command=lambda: press(2), height=1, width=7)
+    button2.grid(row=2, column=1)
+
+    button3 = tk.Button(gui, text=' 3 ', fg='black', bg='white',
+                        command=lambda: press(3), height=1, width=7)
+    button3.grid(row=2, column=2)
+
+    plus = tk.Button(gui, text=' + ', fg='black', bg='orange',
+                     command=lambda: press('+'), height=1, width=7)
+    plus.grid(row=2, column=3)
+    
+    # ... বাকি বোতামগুলো তৈরির জন্য এই পদ্ধতি অনুসরণ করুন (যেমন: 4, 5, 6, -, 7, 8, 9, *, 0, ., /, =, Clear) ...
+
+    # উদাহরণস্বরূপ আরও কিছু বোতাম:
+
+    button4 = tk.Button(gui, text=' 4 ', fg='black', bg='white',
+                        command=lambda: press(4), height=1, width=7)
+    button4.grid(row=3, column=0)
+
+    button5 = tk.Button(gui, text=' 5 ', fg='black', bg='white',
+                        command=lambda: press(5), height=1, width=7)
+    button5.grid(row=3, column=1)
+
+    minus = tk.Button(gui, text=' - ', fg='black', bg='orange',
+                      command=lambda: press('-'), height=1, width=7)
+    minus.grid(row=3, column=3)
+
+    equal = tk.Button(gui, text=' = ', fg='white', bg='green',
+                      command=equalpress, height=1, width=7)
+    equal.grid(row=5, column=2)
+
+    clear_btn = tk.Button(gui, text='Clear', fg='black', bg='red',
+                          command=clear, height=1, width=7)
+    clear_btn.grid(row=5, column=0)
+
+    # মূল লুপ শুরু করা
+    gui.mainloop()
 ---
 title: Set up your environment
 description: Learn how to set up your development environment to start building with Expo.
